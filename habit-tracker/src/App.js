@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import { lightTheme, darkTheme } from './theme';
 import { format, isYesterday } from 'date-fns';
+import { FaPlus, FaMoon, FaSun } from 'react-icons/fa';
 
 function App() {
   const [habits, setHabits] = useState([
@@ -28,7 +29,6 @@ function App() {
     const stored = localStorage.getItem('habits');
     if (stored) setHabits(JSON.parse(stored));
   }, []);
-
 
   useEffect(() => {
     localStorage.setItem('habits', JSON.stringify(habits));
@@ -70,7 +70,7 @@ function App() {
       habit.completed = true;
 
       if (habit.lastCompleted === today) {
-        // already marked today
+       
       } else if (isYesterday(new Date(habit.lastCompleted))) {
         habit.streak += 1;
       } else {
@@ -88,19 +88,25 @@ function App() {
       <GlobalStyles />
       <div style={{ padding: '20px' }}>
         <h1>Daily Habit Tracker</h1>
+        <h1 style={{ fontSize: '2.5rem' }}>Daily Habit Tracker</h1>
+
 
         <button onClick={() => setIsDark(!isDark)}>
+          {isDark ? <FaSun style={{ marginRight: '5px' }} /> : <FaMoon style={{ marginRight: '5px' }} />}
           Toggle Theme
         </button>
+        <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
 
-        <div style={{ margin: '20px 0' }}>
           <input
             type="text"
             placeholder="Enter a new habit"
             value={newHabit}
             onChange={(e) => setNewHabit(e.target.value)}
           />
-          <button onClick={addHabit}>Add Habit</button>
+          <button onClick={addHabit}>
+            <FaPlus style={{ marginRight: '5px' }} />
+            Add Habit
+          </button>
         </div>
 
         <HabitList habits={habits} toggleHabit={toggleHabit} />
